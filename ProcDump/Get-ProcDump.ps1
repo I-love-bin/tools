@@ -57,8 +57,7 @@ $HereDoc = @"
 $Win32API = Add-Type -MemberDefinition $HereDoc -Name 'Win32' -Namespace Win32Functions -PassThru
 $Process = Get-Process $ProcessName
 for ( $count = 0 ; $count -lt $Process.Length ; $count++ ){
-  $DumpFile = $DumpFile + "_" + [string]$count
-  Create-File $DumpFile
+  Create-File $DumpFile+"_"+[string]$count
   $FileProp = [System.IO.File]::Create($DumpFile)
   [Win32Functions.win32]::MiniDumpWriteDump($Process[$count].Handle, $Process[$count].Id, $FileProp.Handle, 0x2, [IntPtr]::Zero, [IntPtr]::Zero, [IntPtr]::Zero)
   [Win32Functions.Win32]::GetLastError()
