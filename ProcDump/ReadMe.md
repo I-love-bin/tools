@@ -1,3 +1,3 @@
 # Usage
 - ```./Get-ProcDump ProcessName DumpFileName```
-- If there some processes (like cmd.exe), 
+- Dump file will be genereted as same number as number of process.
