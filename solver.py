@@ -1,23 +1,20 @@
-with open("./sample.txt","rb") as f:
-	data = f.read()
-result=b''
+import codecs
 
-for i in range(len(data)):
-	if( (i%12)!=0 ):
-		adds=1
-	else:
-		adds=-1
-	byte=int.from_bytes(data[i:i+1])
-	if( byte==0xff and adds==1 ):
-		result=result+b'\x00'
-		continue
-	if( byte==0x0 and adds==-1 ):
-		result=result+b'\xff'
-		continue
-	result=result+(byte+adds).to_bytes(1,'big')
+def extgcd( ph,e,x,y ):
+    if( e==0 ):
+        return 1,0,ph
+    xx,yy,gcd = extgcd(e,ph%e,x,y)
+    xxx = yy
+    yyy = xx - (ph//e)*yy
+    return xxx,yyy,gcd
 
-try:
-	with open("./result",'wb') as f:
-		f.write(result)
-except FileExistsError:
-	pass
+n = 1280678415822214057864524798453297819181910621573945477544758171055968245116423923
+c = 62324783949134119159408816513334912534343517300880137691662780895409992760262021
+ph = 1280678415822214057864524798453297819181234364596418349127352680639289550089776560
+e = 65537
+x,y,gcd=extgcd(ph,e,11,11)
+print(y)
+if( y<0 ):
+    y=y+ph
+
+print(codecs.decode(hex(pow(c,y,n))[2:],'hex'))
